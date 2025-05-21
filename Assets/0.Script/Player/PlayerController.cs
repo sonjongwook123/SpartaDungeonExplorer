@@ -8,6 +8,8 @@ public class PlayerController : MonoBehaviour
     private Vector2 curMovementInput;
     public float jumpPower;
     public LayerMask groundLayerMask;
+    public bool isDoubleJump;
+    public int jumpCount;
 
     [Header("Look")]
     public Transform cameraContainer;
@@ -31,6 +33,14 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
+        if (GetComponent<Player>() != null)
+        {
+            GetComponent<Player>().OnDoubleJump += DoubleJumpUpdate;
+        }
+        else
+        {
+            GameObject.FindWithTag("Player").GetComponent<Player>().OnDoubleJump += DoubleJumpUpdate;
+        }
     }
 
     private void FixedUpdate()
@@ -63,11 +73,27 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    void DoubleJumpUpdate(bool value)
+    {
+        this.isDoubleJump = value;
+    }
+
     public void OnJumpInput(InputAction.CallbackContext context)
     {
-        if (context.phase == InputActionPhase.Started && IsGrounded() == true)
+        if (context.phase == InputActionPhase.Started)
         {
-            _rigidbody.AddForce(Vector2.up * jumpPower, ForceMode.Impulse);
+            if (jumpCount < 2 && isDoubleJump == true)
+            {
+                jumpCount += 1;
+                _rigidbody.AddForce(Vector2.up * jumpPower, ForceMode.Impulse);
+            }
+            else
+            {
+                if (IsGrounded() == true)
+                {
+                    _rigidbody.AddForce(Vector2.up * jumpPower, ForceMode.Impulse);
+                }
+            }
         }
     }
 
@@ -107,6 +133,7 @@ public class PlayerController : MonoBehaviour
 
         if (Physics.Raycast(ray, 0.1f, groundLayerMask))
         {
+            jumpCount = 0;
             return true;
         }
         return false;

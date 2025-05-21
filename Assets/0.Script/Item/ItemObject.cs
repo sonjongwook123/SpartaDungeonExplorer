@@ -1,8 +1,9 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public interface ItemEffect
 {
-    void ApplyEffect(Transform target);
+    void ApplyEffect(Transform target, Transform mine);
 }
 
 public abstract class ItemEffectSO : ScriptableObject, ItemEffect
@@ -10,7 +11,7 @@ public abstract class ItemEffectSO : ScriptableObject, ItemEffect
     [Header("Basic Item Info")]
     public string itemName = "New Item";
     public string description = "A generic item.";
-    public abstract void ApplyEffect(Transform target);
+    public abstract void ApplyEffect(Transform target, Transform mine);
 }
 
 [CreateAssetMenu(fileName = "ConsumableItem", menuName = "Item Effects/HP restore")]
@@ -18,7 +19,7 @@ public class HpItem : ItemEffectSO
 {
     [SerializeField] private float restoreAmount = 10;
 
-    public override void ApplyEffect(Transform target)
+    public override void ApplyEffect(Transform target, Transform mine)
     {
         //target 체력 회복
     }
@@ -29,7 +30,7 @@ public class HpMinusItem : ItemEffectSO
 {
     [SerializeField] private float restoreAmount = 10;
 
-    public override void ApplyEffect(Transform target)
+    public override void ApplyEffect(Transform target, Transform mine)
     {
         target.GetComponent<IDamageable>().TakeDamage(restoreAmount);
         if (target.GetComponent<Rigidbody>() != null)
@@ -45,7 +46,7 @@ public class StaminaItem : ItemEffectSO
 {
     [SerializeField] private float restoreAmount = 10;
 
-    public override void ApplyEffect(Transform target)
+    public override void ApplyEffect(Transform target, Transform mine)
     {
         //target 스테미나 회복
     }
@@ -54,9 +55,8 @@ public class StaminaItem : ItemEffectSO
 [CreateAssetMenu(fileName = "JustItem", menuName = "Items/No Effect")]
 public class JustItem : ItemEffectSO
 {
-    public override void ApplyEffect(Transform target)
+    public override void ApplyEffect(Transform target, Transform mine)
     {
-        Debug.Log("just item");
     }
 }
 
@@ -65,9 +65,11 @@ public class JumpItem : ItemEffectSO
 {
     [SerializeField] private int restoreAmount = 10;
 
-    public override void ApplyEffect(Transform target)
+    public override void ApplyEffect(Transform target, Transform mine)
     {
-        //target 더블 점프
+        Debug.Log("닿음");
+        target.GetComponent<Player>().TakeDoubleJump();
+        Destroy(mine.gameObject);  //target 더블 점프
     }
 }
 

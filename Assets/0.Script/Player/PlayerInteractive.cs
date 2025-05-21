@@ -6,7 +6,7 @@ public class PlayerInteractive : MonoBehaviour
     public LayerMask layerMask;
     [SerializeField]
     private float maxCheckDistance = 3f;
-    public event Action<ItemEffectSO> onRayItem;
+    public event Action<ItemEffectSO> OnRayItem;
     public Transform curInteractGameObject;
 
     void LateUpdate()
@@ -28,7 +28,7 @@ public class PlayerInteractive : MonoBehaviour
                 if (hit.collider.transform != curInteractGameObject)
                 {
                     curInteractGameObject = hit.collider.transform;
-                    onRayItem?.Invoke(hit.collider.GetComponent<Item>().itemData);
+                    OnRayItem?.Invoke(hit.collider.GetComponent<Item>().itemData);
                 }
             }
             else
@@ -45,7 +45,7 @@ public class PlayerInteractive : MonoBehaviour
     void DeCheckInfo()
     {
         curInteractGameObject = null;
-        onRayItem?.Invoke(null);
+        OnRayItem?.Invoke(null);
     }
 
 }

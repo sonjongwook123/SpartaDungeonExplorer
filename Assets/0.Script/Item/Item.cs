@@ -11,7 +11,7 @@ public class Item : MonoBehaviour
     {
         if (other.transform.CompareTag("Player"))
         {
-            this.itemData.ApplyEffect(other.transform);
+            this.itemData.ApplyEffect(other.transform, this.transform);
         }
     }
 

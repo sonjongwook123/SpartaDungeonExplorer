@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 public class Player : MonoBehaviour, IDamageable
@@ -18,6 +19,9 @@ public class Player : MonoBehaviour, IDamageable
 
     public event Action<float, float> OnHpChanged;
     public event Action<float, float> OnStaminaChanged;
+    public event Action<bool> OnDoubleJump;
+    Coroutine doubleJumpCorWrap;
+
 
     void Awake()
     {
@@ -52,5 +56,25 @@ public class Player : MonoBehaviour, IDamageable
 
         // HP가 변경되었으므로 옵저버에게 알림
         OnHpChanged?.Invoke(hp, maxHp);
+    }
+
+    public void TakeDoubleJump()
+    {
+        if (doubleJumpCorWrap != null)
+        {
+            StopCoroutine(doubleJumpCorWrap);
+            doubleJumpCorWrap = StartCoroutine(DoubleJumpCor());
+        }
+        else
+        {
+            doubleJumpCorWrap = StartCoroutine(DoubleJumpCor());
+        }
+    }
+
+    IEnumerator DoubleJumpCor()
+    {
+        OnDoubleJump?.Invoke(true);
+        yield return new WaitForSeconds(5);
+        OnDoubleJump?.Invoke(false);
     }
 }
