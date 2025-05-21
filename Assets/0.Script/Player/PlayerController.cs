@@ -67,7 +67,6 @@ public class PlayerController : MonoBehaviour
     {
         if (context.phase == InputActionPhase.Started && IsGrounded() == true)
         {
-            Debug.Log("점프");
             _rigidbody.AddForce(Vector2.up * jumpPower, ForceMode.Impulse);
         }
     }
@@ -108,7 +107,6 @@ public class PlayerController : MonoBehaviour
 
         if (Physics.Raycast(ray, 0.1f, groundLayerMask))
         {
-            Debug.Log("땅");
             return true;
         }
         return false;
