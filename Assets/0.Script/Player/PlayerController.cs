@@ -72,6 +72,17 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void OnDashInput(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Performed && IsGrounded() == true)
+        {
+        }
+        if (context.phase == InputActionPhase.Canceled)
+        {
+            Debug.Log("Dash key was released!");
+        }
+    }
+
     private void Move()
     {
         Vector3 dir = transform.forward * curMovementInput.y + transform.right * curMovementInput.x;
