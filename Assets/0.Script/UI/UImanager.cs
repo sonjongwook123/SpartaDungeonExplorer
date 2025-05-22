@@ -9,6 +9,8 @@ public class UImanager : MonoBehaviour
     public InteractPanel interactPanel;
     public Text textDoubleJump;
     public Transform interactText;
+    public Transform equipText;
+    public Transform equipEffectText;
 
     void Start()
     {
@@ -19,6 +21,8 @@ public class UImanager : MonoBehaviour
             GameManager.Instance.Player.OnDoubleJump += OnDisplayDoubleJump;
             GameManager.Instance.Player.GetComponent<Player>().OnStaminaChanged += UpdateStaminaUI;
             GameManager.Instance.Player.GetComponent<PlayerInteractive>().OnRayInteract += OnDisplayInteractText;
+            GameManager.Instance.Player.GetComponent<PlayerInteractive>().OnRayEauipable += OnDisplayEquipText;
+            GameManager.Instance.Player.GetComponent<Equipment>().OnEquipChanged += OnDisplayEquipEffect;
         }
         else
         {
@@ -27,8 +31,11 @@ public class UImanager : MonoBehaviour
             GameObject.FindWithTag("Player").GetComponent<Player>().OnDoubleJump += OnDisplayDoubleJump;
             GameObject.FindWithTag("Player").GetComponent<Player>().OnStaminaChanged += UpdateStaminaUI;
             GameObject.FindWithTag("Player").GetComponent<PlayerInteractive>().OnRayInteract += OnDisplayInteractText;
+            GameObject.FindWithTag("Player").GetComponent<PlayerInteractive>().OnRayEauipable += OnDisplayEquipText;
+            GameObject.FindWithTag("Player").GetComponent<Equipment>().OnEquipChanged += OnDisplayEquipEffect;
         }
     }
+
 
     private void UpdateHealthUI(float hp, float maxHp)
     {
@@ -58,6 +65,7 @@ public class UImanager : MonoBehaviour
             interactPanel.InitUI(data);
         }
     }
+
     private void OnDisplayDoubleJump(bool value)
     {
         textDoubleJump.gameObject.SetActive(value);
@@ -68,4 +76,31 @@ public class UImanager : MonoBehaviour
         interactText.gameObject.SetActive(value);
     }
 
+    private void OnDisplayEquipText(bool value)
+    {
+        equipText.gameObject.SetActive(value);
+    }
+
+    void OnDisplayEquipEffect(int num)
+    {
+        switch (num)
+        {
+            case -1:
+                {
+                    equipEffectText.gameObject.SetActive(false);
+                    break;
+                }
+            case 0:
+                {
+                    equipEffectText.gameObject.SetActive(true);
+                    equipEffectText.GetComponent<Text>().text = "무적 효과 적용중";
+                    break;
+                }
+            default:
+                {
+                    equipEffectText.gameObject.SetActive(false);
+                    break;
+                }
+        }
+    }
 }

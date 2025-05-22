@@ -13,6 +13,8 @@ public class Player : MonoBehaviour, IDamageable
     private float stamina;
     [SerializeField]
     private float maxStamina = 100;
+    [SerializeField]
+    private bool isInvincibility;
 
     [Header("컨트롤러")]
     public PlayerController controller;
@@ -21,6 +23,7 @@ public class Player : MonoBehaviour, IDamageable
     public event Action<float, float> OnStaminaChanged;
     public event Action<bool> OnDoubleJump;
     Coroutine doubleJumpCorWrap;
+
 
 
 
@@ -41,7 +44,7 @@ public class Player : MonoBehaviour, IDamageable
 
     public void TakeDamage(float amount)
     {
-        if (amount < 0) return;
+        if (amount < 0 || isInvincibility == true) return;
 
         hp -= amount;
         hp = Mathf.Max(hp, 0); // HP는 0 미만으로 내려가지 않음
@@ -138,5 +141,10 @@ public class Player : MonoBehaviour, IDamageable
     public float GetStamina()
     {
         return stamina;
+    }
+
+    public void TakeInvincibility(bool value)
+    {
+        isInvincibility = value;
     }
 }
