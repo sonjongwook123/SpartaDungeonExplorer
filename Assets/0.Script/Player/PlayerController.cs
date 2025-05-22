@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -5,11 +7,14 @@ public class PlayerController : MonoBehaviour
 {
     [Header("Movement")]
     public float moveSpeed;
+    float originSpeed;
     private Vector2 curMovementInput;
     public float jumpPower;
     public LayerMask groundLayerMask;
     public bool isDoubleJump;
     public int jumpCount;
+
+    public event Action<bool> OnDash;
 
     [Header("Look")]
     public Transform cameraContainer;
@@ -41,6 +46,7 @@ public class PlayerController : MonoBehaviour
         {
             GameObject.FindWithTag("Player").GetComponent<Player>().OnDoubleJump += DoubleJumpUpdate;
         }
+        originSpeed = moveSpeed;
     }
 
     private void FixedUpdate()
@@ -101,10 +107,13 @@ public class PlayerController : MonoBehaviour
     {
         if (context.phase == InputActionPhase.Performed && IsGrounded() == true)
         {
+            moveSpeed *= 2;
+            OnDash?.Invoke(true);
         }
         if (context.phase == InputActionPhase.Canceled)
         {
-            Debug.Log("Dash key was released!");
+            moveSpeed = originSpeed;
+            OnDash?.Invoke(false);
         }
     }
 
@@ -138,4 +147,6 @@ public class PlayerController : MonoBehaviour
         }
         return false;
     }
+
+
 }

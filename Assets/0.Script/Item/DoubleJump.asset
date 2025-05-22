@@ -10,7 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 0}
-  m_Name: JustItem
-  m_EditorClassIdentifier: Assembly-CSharp::JustItem
-  itemName: "\uC554\uBCBD"
-  description: "\uD0C0\uACE0 \uC62C\uB77C \uAC08 \uC218 \uC788\uC744\uB4EF \uD558\uB2E4."
+  m_Name: DoubleJump
+  m_EditorClassIdentifier: Assembly-CSharp::JumpItem
+  itemName: "\uB354\uBE14 \uC810\uD504"
+  description: "\uBA39\uC73C\uBA74 5\uCD08\uAC04 \uB354\uBE14 \uC810\uD504\uD55C\uB2E4."
+  restoreAmount: 10

@@ -23,7 +23,7 @@ public class PlayerInteractive : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit, maxCheckDistance, layerMask))
         {
-            if (Vector3.Distance(transform.position, hit.transform.position) > 8f)
+            if (Vector3.Distance(transform.position, hit.transform.position) > 6f)
             {
                 if (hit.collider.transform != curInteractGameObject)
                 {

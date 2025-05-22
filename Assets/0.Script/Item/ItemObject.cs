@@ -21,7 +21,8 @@ public class HpItem : ItemEffectSO
 
     public override void ApplyEffect(Transform target, Transform mine)
     {
-        //target 체력 회복
+        target.GetComponent<Player>().RestoreHealth(restoreAmount);
+        Destroy(mine.gameObject);
     }
 }
 
@@ -48,7 +49,8 @@ public class StaminaItem : ItemEffectSO
 
     public override void ApplyEffect(Transform target, Transform mine)
     {
-        //target 스테미나 회복
+        target.GetComponent<Player>().RestoreStamina(restoreAmount);
+        Destroy(mine.gameObject);
     }
 }
 
@@ -67,7 +69,6 @@ public class JumpItem : ItemEffectSO
 
     public override void ApplyEffect(Transform target, Transform mine)
     {
-        Debug.Log("닿음");
         target.GetComponent<Player>().TakeDoubleJump();
         Destroy(mine.gameObject);  //target 더블 점프
     }
