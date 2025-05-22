@@ -8,6 +8,7 @@ public class Floor : MonoBehaviour
     [SerializeField] private float baseJumpForce = 25f;
     // ScriptableObject 타입으로 직접 할당 가능
     [SerializeField] private JumpFloorSO jumpFloorAsset;
+    [SerializeField] private Transform lastPoint;
 
     [Header("움직임 설정")]
     [SerializeField] private float moveSpeed = 2f;
@@ -50,7 +51,14 @@ public class Floor : MonoBehaviour
                 }
                 if (jumpFloorAsset != null)
                 {
-                    jumpFloorAsset.ApplyJump(playerRigidbody, baseJumpForce);
+                    if (lastPoint != null)
+                    {
+                        jumpFloorAsset.ApplyJump(transform.position, lastPoint.position, 100f, 5f, other.transform);
+                    }
+                    else
+                    {
+                        jumpFloorAsset.ApplyJump(playerRigidbody, baseJumpForce);
+                    }
                 }
             }
         }

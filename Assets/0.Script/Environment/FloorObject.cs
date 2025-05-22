@@ -15,6 +15,7 @@ public interface IMoveFloor
 public abstract class JumpFloorSO : ScriptableObject, IJumpFloor
 {
     public abstract void ApplyJump(Rigidbody playerRigidbody, float jumpForce);
+    public abstract void ApplyJump(Vector3 startPoint, Vector3 endPoint, float height, float t, Transform player);
 }
 
 // IMoveStrategy를 구현하는 ScriptableObject 기반 추상 클래스
@@ -37,21 +38,18 @@ public class FloorObjectJumpNormal : JumpFloorSO
     {
         playerRigidbody.velocity = new Vector2(playerRigidbody.velocity.x, jumpForce);
     }
+
+    public override void ApplyJump(Vector3 startPoint, Vector3 endPoint, float height, float t, Transform player) { }
 }
 
 [CreateAssetMenu(fileName = "JumpFloorParabolic", menuName = "FLoor/Jump/Parabolic")]
 public class FloorObjectJumpParabolic : JumpFloorSO
 {
-    [SerializeField] private float horizontalForceMultiplier = 1f;
-    [SerializeField] private float verticalForceMultiplier = 1f;
-    public override void ApplyJump(Rigidbody playerRigidbody, float jumpForce)
-    {
-        playerRigidbody.AddForce(
-            playerRigidbody.transform.forward * jumpForce * 2 * horizontalForceMultiplier +
-            Vector3.up * jumpForce * verticalForceMultiplier, // 위쪽 방향은 항상 Vector3.up
-            ForceMode.Impulse
-        );
+    public override void ApplyJump(Rigidbody playerRigidbody, float jumpForce) { }
 
+    public override void ApplyJump(Vector3 startPoint, Vector3 endPoint, float height, float t, Transform player)
+    {
+        player.GetComponent<PlayerEffected>().TakeParabolicJump(startPoint, endPoint, height, t);
     }
 }
 

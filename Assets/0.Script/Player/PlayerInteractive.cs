@@ -41,7 +41,7 @@ public class PlayerInteractive : MonoBehaviour
         }
         else if (Physics.Raycast(ray, out hit, maxCheckDistance, interactlayerMask))
         {
-            if (Vector3.Distance(transform.position, hit.transform.position) > 6f)
+            if (Vector3.Distance(transform.position, hit.transform.position) < maxCheckDistance)
             {
                 if (hit.collider.transform != curInteractGameObject)
                 {
