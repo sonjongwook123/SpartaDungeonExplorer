@@ -26,7 +26,7 @@
 ![image](https://github.com/user-attachments/assets/0a6d6861-fc18-48a8-a7c8-098dfb5e455e)
 
 
-### 7. 상호 작용 오브젝트
+### 7. 상호 작용 오브젝트( 문, 키 누르면 점프하는 발판 )
 ![image](https://github.com/user-attachments/assets/abb57a0a-3ad4-41d5-b7b7-b36a44f75335)
 
 
