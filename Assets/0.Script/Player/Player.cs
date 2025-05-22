@@ -23,6 +23,7 @@ public class Player : MonoBehaviour, IDamageable
     Coroutine doubleJumpCorWrap;
 
 
+
     void Awake()
     {
         controller = GetComponent<PlayerController>();

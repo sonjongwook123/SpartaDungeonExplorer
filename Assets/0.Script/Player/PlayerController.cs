@@ -29,6 +29,7 @@ public class PlayerController : MonoBehaviour
     public bool canLook = true;
 
     private Rigidbody _rigidbody;
+    public Transform[] cameras;
 
     private void Awake()
     {
@@ -148,5 +149,20 @@ public class PlayerController : MonoBehaviour
         return false;
     }
 
-
+    public void OnChangeCamera(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Started)
+        {
+            if (cameras[0].gameObject.activeSelf == true)
+            {
+                cameras[0].gameObject.SetActive(false);
+                cameras[1].gameObject.SetActive(true);
+            }
+            else
+            {
+                cameras[1].gameObject.SetActive(false);
+                cameras[0].gameObject.SetActive(true);
+            }
+        }
+    }
 }
