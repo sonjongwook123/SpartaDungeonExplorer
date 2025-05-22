@@ -86,7 +86,7 @@ public class Player : MonoBehaviour, IDamageable
         stamina += amount;
         stamina = Mathf.Min(stamina, maxStamina); // HP는 MaxHp를 넘지 않음
 
-        // HP가 변경되었으므로 옵저버에게 알림
+        // Stamina가 변경되었으므로 옵저버에게 알림
         OnStaminaChanged?.Invoke(stamina, maxStamina);
     }
 
@@ -124,8 +124,19 @@ public class Player : MonoBehaviour, IDamageable
 
     void DecreaseStamina()
     {
+        if (stamina > 0)
+        {
+            GetComponent<PlayerController>().SpeedChange(true);
+        }
+        else
+        {
+            GetComponent<PlayerController>().SpeedChange(false);
+        }
         TakeStamina(10f);
     }
 
-
+    public float GetStamina()
+    {
+        return stamina;
+    }
 }

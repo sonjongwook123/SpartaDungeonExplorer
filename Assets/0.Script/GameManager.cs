@@ -29,6 +29,11 @@ public class GameManager : MonoBehaviour
                 Destroy(gameObject);
             }
         }
+
+        if (Player == null)
+        {
+            Player = GameObject.FindWithTag("Player").GetComponent<Player>();
+        }
     }
 
     [Header("UI오브젝트")]
@@ -41,4 +46,5 @@ public class GameManager : MonoBehaviour
         set { _player = value; }
     }
     private Player _player;
+
 }

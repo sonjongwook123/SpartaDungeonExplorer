@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
     [Header("Movement")]
     public float moveSpeed;
     float originSpeed;
+    float fastSpeed;
     private Vector2 curMovementInput;
     public float jumpPower;
     public LayerMask groundLayerMask;
@@ -48,6 +49,7 @@ public class PlayerController : MonoBehaviour
             GameObject.FindWithTag("Player").GetComponent<Player>().OnDoubleJump += DoubleJumpUpdate;
         }
         originSpeed = moveSpeed;
+        fastSpeed = moveSpeed * 2;
     }
 
     private void FixedUpdate()
@@ -106,15 +108,26 @@ public class PlayerController : MonoBehaviour
 
     public void OnDashInput(InputAction.CallbackContext context)
     {
-        if (context.phase == InputActionPhase.Performed && IsGrounded() == true)
+        if (context.phase == InputActionPhase.Performed && IsGrounded() == true && GetComponent<Player>().GetStamina() > 0)
         {
-            moveSpeed *= 2;
             OnDash?.Invoke(true);
         }
         if (context.phase == InputActionPhase.Canceled)
         {
-            moveSpeed = originSpeed;
             OnDash?.Invoke(false);
+            SpeedChange(false);
+        }
+    }
+
+    public void SpeedChange(bool isChange)
+    {
+        if (isChange == true)
+        {
+            moveSpeed = fastSpeed;
+        }
+        else
+        {
+            moveSpeed = originSpeed;
         }
     }
 
