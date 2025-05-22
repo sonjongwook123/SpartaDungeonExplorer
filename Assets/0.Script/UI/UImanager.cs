@@ -8,6 +8,7 @@ public class UImanager : MonoBehaviour
     public Image staminaBar;
     public InteractPanel interactPanel;
     public Text textDoubleJump;
+    public Transform interactText;
 
     void Start()
     {
@@ -16,7 +17,8 @@ public class UImanager : MonoBehaviour
             GameManager.Instance.Player.OnHpChanged += UpdateHealthUI;
             GameManager.Instance.Player.GetComponent<PlayerInteractive>().OnRayItem += OnDisplayInteractData;
             GameManager.Instance.Player.OnDoubleJump += OnDisplayDoubleJump;
-            GameObject.FindWithTag("Player").GetComponent<Player>().OnStaminaChanged += UpdateStaminaUI;
+            GameManager.Instance.Player.GetComponent<Player>().OnStaminaChanged += UpdateStaminaUI;
+            GameManager.Instance.Player.GetComponent<PlayerInteractive>().OnRayInteract += OnDisplayInteractText;
         }
         else
         {
@@ -24,6 +26,7 @@ public class UImanager : MonoBehaviour
             GameObject.FindWithTag("Player").GetComponent<PlayerInteractive>().OnRayItem += OnDisplayInteractData;
             GameObject.FindWithTag("Player").GetComponent<Player>().OnDoubleJump += OnDisplayDoubleJump;
             GameObject.FindWithTag("Player").GetComponent<Player>().OnStaminaChanged += UpdateStaminaUI;
+            GameObject.FindWithTag("Player").GetComponent<PlayerInteractive>().OnRayInteract += OnDisplayInteractText;
         }
     }
 
@@ -58,6 +61,11 @@ public class UImanager : MonoBehaviour
     private void OnDisplayDoubleJump(bool value)
     {
         textDoubleJump.gameObject.SetActive(value);
+    }
+
+    void OnDisplayInteractText(bool value)
+    {
+        interactText.gameObject.SetActive(value);
     }
 
 }
